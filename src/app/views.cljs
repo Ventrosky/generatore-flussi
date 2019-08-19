@@ -112,8 +112,8 @@
        (for [testa testata]
          ^{:key (random-uuid)}
          [:> table-headercell testa ])]]
-   [:> table-body ; to-do sort by using nth number from state
-    (for [riga (sort-by #(nth % 5) records)]
+   [:> table-body 
+    (for [riga (sort-by #(nth % (:sort ((:selected @app-setting) @censimento))) records)]
       ^{:key (random-uuid)}
       [:> table-row {:style {:white-space "nowrap"}}
        (for [campo riga]

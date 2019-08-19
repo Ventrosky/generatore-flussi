@@ -716,7 +716,7 @@
                                           :pos-nasc 5}}
                             :carti {:name "CARTI"
                                     :code :carti
-                                    :sort 5
+                                    :sort 4
                                     :anag {:pos-cdfisc 6
                                            :pos-nome 9
                                            :pos-cognome 10
