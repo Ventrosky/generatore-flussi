@@ -253,7 +253,7 @@
 
 (defn nuclei-seq
   [n]
-  (let [family [["00" "00"] ["00" "01" "02"] ["00" "01"] ["00" "02"] ["00" "01" "02" "02"]]]
+  (let [family [["00" "00"] ["00" "00" "00"] ["00" "01" "02"] ["00" "01"] ["00" "02"] ["00" "01" "02" "02"]]]
     (take n (into [] cat (take n (repeatedly #(rand-nth family)))))))
 
 (defn genera-carta-n
