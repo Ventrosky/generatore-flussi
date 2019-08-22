@@ -41,7 +41,14 @@
 (def dropdown         (component "Dropdown"))
 (def input            (component "Input"))
 
-
+(defn note
+  []
+  [:div.ui.segments
+   [:div.ui.segment 
+    [:p "E' possibile esprimere in intervalli randomici date ed importi." ]]
+   [:div.ui.secondary.segment
+    [:p "Esempio data: 01/01/1990;31/12/1999"]
+    [:p "Esempio importo: 500000;1000000"]]])
 
 (def patterns
   {:tdate "[0-9]{2}[^\\d][0-9]{2}[^\\d][0-9]{4}(;[0-9]{2}[^\\d][0-9]{2}[^\\d][0-9]{4}){0,1}"
@@ -133,20 +140,21 @@
                 :as "h1" 
                 :style {:color "#2185d0" 
                         :padding "1em"}}]
+    [note]
     [:> grid {:columns 2 :stackable true}
-      [:> grid-row {:style {:textAlign "center"}}
-       [:> grid-column
-        [:select.ui.dropdown {:on-change (fn [e]
-                                           (do 
-                                             (swap! app-setting assoc :selected (keyword (-> e .-target .-value)))
-                                             (reset! app-inputato (build-form-atom))
-                                             (reset! app-generated {})))}
-         (for [trc (vals @censimento)]
-           [:option {:value (:code trc) :key (:name trc)} (:name trc)])]]
-        [:> grid-column
-         [:> input { :placeholder (:num @app-setting)
-                    :on-change (fn [e]
-                                 (swap! app-setting assoc :num (js/parseInt (-> e .-target .-value))))}]]]]
+     [:> grid-row {:style {:textAlign "center"}}
+      [:> grid-column
+       [:select.ui.dropdown {:on-change (fn [e]
+                                          (do 
+                                            (swap! app-setting assoc :selected (keyword (-> e .-target .-value)))
+                                            (reset! app-inputato (build-form-atom))
+                                            (reset! app-generated {})))}
+        (for [trc (vals @censimento)]
+          [:option {:value (:code trc) :key (:name trc)} (:name trc)])]]
+      [:> grid-column
+       [:> input { :placeholder (:num @app-setting)
+                  :on-change (fn [e]
+                               (swap! app-setting assoc :num (js/parseInt (-> e .-target .-value))))}]]]]
     [:> divider]
     [form-tracciato @app-state]
     [:> divider]

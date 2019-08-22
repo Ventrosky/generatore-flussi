@@ -700,7 +700,417 @@
                                    :obbligatorio "R"
                                    :dominio ["A00" "A01" "A02" "P00" "P01" "P02" "P03"]
                                    :code :categoria
-                                   :inputato false}]}))
+                                   :inputato false}]
+                          :adica [{:pos 1
+                                   :nome "Operazione"
+                                   :descrizione "Codice operazione"
+                                   :specifiche "Non sono ammesse operazioni diverse nello stesso file"
+                                   :tipo :tchar
+                                   :lungh 1
+                                   :obbligatorio "O"
+                                   :dominio ["E" "I" "U" "V"]
+                                   :code :cdoper
+                                   :inputato true}
+                                  {:pos 2
+                                   :nome "Prodotto"
+                                   :descrizione "Codice Prodotto Compagnia"
+                                   :specifiche "Codice prodotto compagnia dato costante all’interno dello stesso flusso."
+                                   :tipo :tchar
+                                   :lungh 20
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :cdprod
+                                   :inputato true}
+                                  {:pos 3
+                                   :nome "Numero di Polizza collettiva"
+                                   :descrizione "Numero di Polizza Collettiva"
+                                   :specifiche "Numero di polizza collettiva per la quale viene trasmesso l’elenco dato costante all’interno dello stesso flusso."
+                                   :tipo :tchar
+                                   :lungh 20
+                                   :obbligatorio "O"
+                                   :dominio []
+                                   :code :nupoliz
+                                   :inputato true}
+                                  {:pos 4
+                                   :nome "Codice fiscale Contraente"
+                                   :descrizione "Codice fiscale Contraente"
+                                   :specifiche "Codice fiscale contraente collettiva. Dato costante per tutte le polizze collettive della contraente."
+                                   :tipo :tchar
+                                   :lungh 11
+                                   :obbligatorio "O"
+                                   :dominio []
+                                   :code :cdfisccontr
+                                   :inputato true}
+                                  {:pos 5
+                                   :nome "Codice fiscale principale"
+                                   :descrizione "Codice fiscale assicurato principale"
+                                   :specifiche "Codice fiscale principale (aderente/dipendente)."
+                                   :tipo :tchar
+                                   :lungh 16
+                                   :obbligatorio "O"
+                                   :dominio []
+                                   :code :cdfiscmaster
+                                   :inputato false}
+                                  {:pos 6
+                                   :nome "Matricola principale"
+                                   :descrizione "Identificativo a disposizione della contraente"
+                                   :specifiche "Matricola / identificativo a disposizione della contraente."
+                                   :tipo :tchar
+                                   :lungh 30
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :cdidmaster
+                                   :inputato false}
+                                  {:pos 7
+                                   :nome "Codice fiscale collegato"
+                                   :descrizione "Codice fiscale aderente"
+                                   :specifiche "Codice fiscale Collegato (appartenente al nucleo) se trasmesso dipendente / assicurato principale, valorizzare uguale a campo 5."
+                                   :tipo :tchar
+                                   :lungh 16
+                                   :obbligatorio "O"
+                                   :dominio []
+                                   :code :cdfisc
+                                   :inputato false}
+                                  {:pos 8
+                                   :nome "Matricola collegata"
+                                   :descrizione "Identificativo a disposizione della contraente"
+                                   :specifiche "Matricola / identificativo dell’assicurato collegato a disposizione della contraente. Se valorizzata, vale la stessa regola del campo 7."
+                                   :tipo :tchar
+                                   :lungh 30
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :cdidslave
+                                   :inputato false}
+                                  {:pos 9
+                                   :nome "Grado parentela"
+                                   :descrizione "Grado parentela"
+                                   :specifiche "Grado di parentela del assicurato con l’assicurato principale. Se si trasmette l’assicurato principale valorizzare con '00'."
+                                   :tipo :tchar
+                                   :lungh 2
+                                   :obbligatorio "O"
+                                   :dominio ["00","01","02"]
+                                   :code :cdparent
+                                   :inputato false}
+                                  {:pos 10
+                                   :nome "Nome"
+                                   :descrizione "Nome Aderente"
+                                   :specifiche "Nome Aderente collettiva."
+                                   :tipo :tchar
+                                   :lungh 20
+                                   :obbligatorio "O"
+                                   :dominio []
+                                   :code :dsnome
+                                   :inputato false}
+                                  {:pos 11
+                                   :nome "Cognome"
+                                   :descrizione "Cognome Aderente"
+                                   :specifiche "Cognome Aderente collettiva."
+                                   :tipo :tchar
+                                   :lungh 20
+                                   :obbligatorio "O"
+                                   :dominio []
+                                   :code :dscognome
+                                   :inputato false}
+                                  {:pos 12
+                                   :nome "Data di Nascita"
+                                   :descrizione "Data di nascita dell’assicurato"
+                                   :specifiche "Formato gg/MM/yyyy"
+                                   :tipo :tdate
+                                   :lungh 10
+                                   :obbligatorio "O"
+                                   :dominio []
+                                   :code :dtnasc
+                                   :inputato true}
+                                  {:pos 13
+                                   :nome "Importo Prestazione TCM"
+                                   :descrizione "Importo Prestazione Caso Morte"
+                                   :specifiche "Valorizzare solo se la prestazione caso morte è prevista. Le ultime due cifre saranno utilizzate per i decimali"
+                                   :tipo :tnumber
+                                   :lungh 16
+                                   :obbligatorio "R"
+                                   :dominio []
+                                   :code :imptcm
+                                   :inputato true}
+                                  {:pos 14
+                                   :nome "Importo Prestazione ITP"
+                                   :descrizione "Importo Prestazione Caso Invalidità"
+                                   :specifiche "Valorizzare solo se la prestazione caso invalidità è prevista. Le ultime due cifre saranno utilizzate per i decimali"
+                                   :tipo :tnumber
+                                   :lungh 16
+                                   :obbligatorio "R"
+                                   :dominio []
+                                   :code :impci
+                                   :inputato true}
+                                  {:pos 15
+                                   :nome "Importo Prestazione Rendita"
+                                   :descrizione "Importo Prestazione Rendita"
+                                   :specifiche "Valorizzare solo se la prestazione rendita è prevista. Le ultime due cifre saranno utilizzate per i decimali (intesa mensile)"
+                                   :tipo :tnumber
+                                   :lungh 16
+                                   :obbligatorio "R"
+                                   :dominio []
+                                   :code :impre
+                                   :inputato true}
+                                  {:pos 16
+                                   :nome "Quota di premio in %"
+                                   :descrizione "Quota del premio in percentuale a carico dell’aderente"
+                                   :specifiche "Valorizzare se previsto dalla regola di prodotto. Il dato rappresenta la percentuale del premio a carico dell’aderente es. 33,33% => 3333 "
+                                   :tipo :tnumber
+                                   :lungh 5
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :perquota
+                                   :inputato true}
+                                  {:pos 17
+                                   :nome "Stato Recapito aderente"
+                                   :descrizione "Descrizione Stato Recapito"
+                                   :specifiche "Stato del recapito 086..."
+                                   :tipo :tchar
+                                   :lungh 3
+                                   :obbligatorio "F"
+                                   :dominio ["086"]
+                                   :code :dsstato
+                                   :inputato false}
+                                  {:pos 18
+                                   :nome "Sigla Provincia recapito aderente"
+                                   :descrizione "Provincia Recapito"
+                                   :specifiche "Provincia recapito solo se Italiano."
+                                   :tipo :tchar
+                                   :lungh 2
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :dsprov
+                                   :inputato false}
+                                  {:pos 19
+                                   :nome "CAP recapito aderente"
+                                   :descrizione "Cap recapito"
+                                   :specifiche "Cap recapito."
+                                   :tipo :tchar
+                                   :lungh 5
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :dscap
+                                   :inputato false}
+                                  {:pos 20
+                                   :nome "Comune Recapito aderente"
+                                   :descrizione "Comune Recapito"
+                                   :specifiche "Comune Recapito."
+                                   :tipo :tchar
+                                   :lungh 100
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :dscomune
+                                   :inputato false}
+                                  {:pos 21
+                                   :nome "Localita Recapito aderente"
+                                   :descrizione "Localita Recapito"
+                                   :specifiche "Localita recapito dell'aderente, per eventuali comunicazioni dalla compagnia."
+                                   :tipo :tchar
+                                   :lungh 40
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :dsloc
+                                   :inputato false}
+                                  {:pos 22
+                                   :nome "Indirizzo Recapito aderente"
+                                   :descrizione "Indirizzo Recapito"
+                                   :specifiche "Indirizzo."
+                                   :tipo :tchar
+                                   :lungh 80
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :dsaddress
+                                   :inputato false}
+                                  {:pos 23
+                                   :nome "Formula Presso recapito aderente"
+                                   :descrizione "Eventuale C/O"
+                                   :specifiche "Eventuale formula Presso da utilizzare."
+                                   :tipo :tchar
+                                   :lungh 80
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :dspresso
+                                   :inputato false}
+                                  {:pos 24
+                                   :nome "Data Entrata"
+                                   :descrizione "Data di Ingresso in Assicurazione"
+                                   :specifiche "Formato gg/MM/yyyy"
+                                   :tipo :tdate
+                                   :lungh 10
+                                   :obbligatorio "O"
+                                   :dominio []
+                                   :code :dtentrata
+                                   :inputato true}
+                                  {:pos 25
+                                   :nome "Data Uscita"
+                                   :descrizione "Data di Uscita dall’Assicurazione"
+                                   :specifiche "Valorizzare solo in caso di uscite. Formato gg/MM/yyyy"
+                                   :tipo :tdate
+                                   :lungh 10
+                                   :obbligatorio "R"
+                                   :dominio []
+                                   :code :dtuscita
+                                   :inputato true}
+                                  {:pos 26
+                                   :nome "Data Variazione"
+                                   :descrizione "Data dalla quale ha effetto la Variazione del recapito e/o del/i capitali assicurati."
+                                   :specifiche "Valorizzare solo in caso di trasmissione variazioni. Formato gg/MM/yyyy"
+                                   :tipo :tdate
+                                   :lungh 10
+                                   :obbligatorio "R"
+                                   :dominio []
+                                   :code :dtvaria
+                                   :inputato true}
+                                  {:pos 27
+                                   :nome "Motivo Scarto"
+                                   :descrizione "Motivo dello scarto della testa informativa."
+                                   :specifiche "Valorizzato dalla procedura Example solo per il flusso scarti verso la contraente."
+                                   :tipo :tchar
+                                   :lungh 500
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :dsscarto
+                                   :inputato false}
+                                  {:pos 28
+                                   :nome "Qualifica Aderente"
+                                   :descrizione "Qualifica di inquadramento aderente."
+                                   :specifiche "In caso di valorizzazione rispettare il seguente dominio."
+                                   :tipo :tchar
+                                   :lungh 2
+                                   :obbligatorio "F"
+                                   :dominio ["01" "02" "03" "04" "99"]
+                                   :code :cdqualifica
+                                   :inputato false}
+                                  {:pos 29
+                                   :nome "Importo di sovrappremio"
+                                   :descrizione "Eventuale importo del sovrappremio se definito nelle regole di prodotto."
+                                   :specifiche "Importo del sovrappremio se previsto dalle regole di prodotto. Le ultime due cifre saranno utilizzate per i decimali."
+                                   :tipo :tnumber
+                                   :lungh 16
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :imsovrapre
+                                   :inputato true}
+                                  {:pos 30
+                                   :nome "Data prima adesione"
+                                   :descrizione "Data prima adesione."
+                                   :specifiche "La data di I adesione degli iscritti alla precedente copertura (richiesta da EMAPI)."
+                                   :tipo :tdate
+                                   :lungh 10
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :dtpriade
+                                   :inputato false}
+                                  {:pos 31
+                                   :nome "Azienda Aderente"
+                                   :descrizione "Denominazione Azienda Aderente"
+                                   :specifiche "Denominazione della azienda aderente alla quale appartiene l’assicurato."
+                                   :tipo :tchar
+                                   :lungh 30
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :dsazade
+                                   :inputato true}
+                                  {:pos 32
+                                   :nome "Importo Prestazione Critical Illness"
+                                   :descrizione "Importo Prestazione Critical Illness"
+                                   :specifiche "Valorizzare solo se la prestazione Critical Illness è prevista. Le ultime due cifre saranno utilizzate per i decimali."
+                                   :tipo :tnumber
+                                   :lungh 16
+                                   :obbligatorio "R"
+                                   :dominio []
+                                   :code :impdd
+                                   :inputato true}
+                                  {:pos 33
+                                   :nome "Soggetto inabile"
+                                   :descrizione "Indica se il soggetto trasmesso è incapace/inabile"
+                                   :specifiche "Valorizzare solo se previsto dalle condizioni contrattuali."
+                                   :tipo :tchar
+                                   :lungh 1
+                                   :obbligatorio "F"
+                                   :dominio ["","H","I"]
+                                   :code :cdinabile
+                                   :inputato false}
+                                  {:pos 34
+                                   :nome "Indicazione Beneficiari Caso Morte"
+                                   :descrizione "Indicare gli eventuali beneficiari designiati dall’aderente che differiscono da quelli previsti nell’accordo quadro compagnia-contraente."
+                                   :specifiche "Valorizzare con testo libero."
+                                   :tipo :tchar
+                                   :lungh 500
+                                   :obbligatorio "F"
+                                   :dominio []
+                                   :code :dsbenef
+                                   :inputato false}
+                                  {:pos 35
+                                   :nome "Presenza Figlio inabile"
+                                   :descrizione "Indicare se nel nucleo familiare è presente un figlio con o senza disabilità."
+                                   :specifiche "Valorizzare solo se previsto dalle condizioni contrattuali."
+                                   :tipo :tchar
+                                   :lungh 1
+                                   :obbligatorio "F"
+                                   :dominio ["M","G","I","H"]
+                                   :code :cdfamiliare
+                                   :inputato false}
+                                  {:pos 36
+                                   :nome "Categoria Assicurato"
+                                   :descrizione "Indica la categoria dell’assicurato "
+                                   :specifiche "Valorizzare in base alle codifiche"
+                                   :tipo :tchar
+                                   :lungh 3
+                                   :obbligatorio "R"
+                                   :dominio ["A00" "A01" "A02" "P00" "P01" "P02" "P03"]
+                                   :code :categoria
+                                   :inputato false}
+                                  {:pos 37
+                                   :nome "Tipo Quota a carico"
+                                   :descrizione "Indica se l’aderente paga anche la prestazione base o solo la parte aggiuntiva."
+                                   :specifiche "Valorizzare solo nel caso di trasmissione di adesioni a titolo individuale quindi o per prestazioni aggiuntive e totalmente a carico dell’aderente."
+                                   :tipo :tchar
+                                   :lungh 1
+                                   :obbligatorio "R"
+                                   :dominio ["T","A"]
+                                   :code :tpquota
+                                   :inputato true} 
+                                  {:pos 38
+                                   :nome "Prestazione TCM Aggiutiva"
+                                   :descrizione "La prestazione Aggiuntiva richiesta dall’aderente."
+                                   :specifiche "Valorizzare solo se si sta inviando l’adesione a titolo individuale."
+                                   :tipo :tnumber
+                                   :lungh 16
+                                   :obbligatorio "R"
+                                   :dominio []
+                                   :code :imptcmagg
+                                   :inputato true}
+                                  {:pos 39
+                                   :nome "Prestazione ITP Aggiuntiva"
+                                   :descrizione "La prestazione Aggiuntiva richiesta dall’aderente."
+                                   :specifiche "Valorizzare solo se si sta inviando l’adesione a titolo individuale."
+                                   :tipo :tnumber
+                                   :lungh 16
+                                   :obbligatorio "R"
+                                   :dominio []
+                                   :code :impciagg
+                                   :inputato true}
+                                  {:pos 40
+                                   :nome "Prestazione LTC Aggiuntiva"
+                                   :descrizione "La prestazione Aggiuntiva richiesta dall’aderente."
+                                   :specifiche "Valorizzare solo se si sta inviando l’adesione a titolo individuale."
+                                   :tipo :tnumber
+                                   :lungh 16
+                                   :obbligatorio "R"
+                                   :dominio []
+                                   :code :impreagg
+                                   :inputato true}
+                                  {:pos 41
+                                   :nome "Prestazione CI Aggiuntiva"
+                                   :descrizione "La prestazione Aggiuntiva richiesta dall’aderente."
+                                   :specifiche "Valorizzare solo se si sta inviando l’adesione a titolo individuale."
+                                   :tipo :tnumber
+                                   :lungh 16
+                                   :obbligatorio "R"
+                                   :dominio []
+                                   :code :impddagg
+                                   :inputato true}]}))
 
 (defonce app-generated (atom {}))
 
@@ -714,15 +1124,24 @@
                                           :pos-nome 2
                                           :pos-cognome 3
                                           :pos-nasc 5}}
-                            :carti {:name "CARTI"
-                                    :code :carti
-                                    :sort 4
-                                    :anag {:pos-cdfisc 6
-                                           :pos-nome 9
-                                           :pos-cognome 10
-                                           :pos-nasc 11
-                                           :pos-master 4
-                                           :pos-parent 8}}}))
+                           :carti {:name "CARTI"
+                                   :code :carti
+                                   :sort 4
+                                   :anag {:pos-cdfisc 6
+                                          :pos-nome 9
+                                          :pos-cognome 10
+                                          :pos-nasc 11
+                                          :pos-master 4
+                                          :pos-parent 8}}
+                           :adica {:name "ADICA"
+                                   :code :adica
+                                   :sort 4
+                                   :anag {:pos-cdfisc 6
+                                          :pos-nome 9
+                                          :pos-cognome 10
+                                          :pos-nasc 11
+                                          :pos-master 4
+                                          :pos-parent 8}}}))
 
 (defonce app-setting (atom {:num 100
                             :loading false

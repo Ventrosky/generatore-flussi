@@ -218,7 +218,7 @@
          (gen-single-seq :cdidmaster cdidmaster)
          (gen-single-seq :cdfisc cdfisc)
          (gen-single-seq :cdidslave cdidslave)
-         (gen-single-seq :cdparent ["00"]);,"01","02"
+         (gen-single-seq :cdparent ["00"])
          (gen-single-seq :dsnome nomi)
          (gen-single-seq :dscognome cognomi)
          (gen-single-seq :dtnasc dtnasc)
@@ -246,6 +246,104 @@
          (gen-single-seq :dsbenef "")
          (gen-single-seq :cdfamiliare "")
          (gen-single-seq :categoria ["A00" "A01" "A02" "P00" "P01" "P02" "P03"]))))
+
+
+(def fu-gen-record-adica
+  {:cdoper #(repeat (no-nill-str %))
+   :cdprod #(repeat (no-nill-str %))
+   :nupoliz #(repeat (no-nill-str %))
+   :cdfisccontr #(repeat (no-nill-str %))
+   :cdfiscmaster #(repeat "")
+   :cdidmaster #(repeat "")
+   :cdfisc #(repeat "")
+   :cdidslave #(repeat "")
+   :cdparent (fn [parentela] (repeatedly #(rand-nth parentela)))
+   :dsnome (fn [rlst] (repeatedly #(rand-nth rlst)))
+   :dscognome (fn [rlst] (repeatedly #(rand-nth rlst)))
+   :dtnasc (fn [dt-str] (let [val (if (clojure.string/blank? dt-str)
+                                    "01/01/1970;31/12/1984"
+                                    dt-str)]
+                          (repeatedly #(rng-date-in val))))
+   :imptcm  (fn [imp-str] (repeatedly #(rng-importo-in imp-str)))
+   :impci (fn [imp-str] (repeatedly #(rng-importo-in imp-str)))
+   :impre (fn [imp-str] (repeatedly #(rng-importo-in imp-str)))
+   :perquota #(repeat (no-nill-str %))
+   :dsstato #(repeat "")
+   :dsprov #(repeat "")
+   :dscap #(repeat "")
+   :dscomune #(repeat "")
+   :dsloc #(repeat "")
+   :dsaddress #(repeat "")
+   :dspresso #(repeat "")
+   :dtentrata (fn [dt-str] (repeatedly #(rng-date-in dt-str)))
+   :dtuscita (fn [dt-str] (repeatedly #(rng-date-in dt-str)))
+   :dtvaria (fn [dt-str] (repeatedly #(rng-date-in dt-str)))
+   :dsscarto #(repeat "")
+   :cdqualifica (fn [qualifiche] (repeatedly #(rand-nth qualifiche)))
+   :imsovrapre (fn [imp-str] (repeatedly #(rng-importo-in imp-str)))
+   :dtpriade #(repeat "")
+   :dsazade #(repeat (no-nill-str %))
+   :impdd (fn [imp-str] (repeatedly #(rng-importo-in imp-str)))
+   :cdinabile #(repeat "")
+   :dsbenef #(repeat "")
+   :cdfamiliare #(repeat "")
+   :categoria (fn [categorie] (repeatedly #(rand-nth categorie)))
+   :tpquota #(repeat (no-nill-str %))
+   :imptcmagg (fn [imp-str] (repeatedly #(rng-importo-in imp-str)))
+   :impciagg (fn [imp-str] (repeatedly #(rng-importo-in imp-str)))
+   :impreagg (fn [imp-str] (repeatedly #(rng-importo-in imp-str)))
+   :impddagg (fn [imp-str] (repeatedly #(rng-importo-in imp-str)))})
+
+(defn genera-adica
+  [dati-form]
+  (let [{:keys [cdoper cdprod nupoliz cdfisccontr dtnasc dtentrata dtuscita dtvaria imptcm
+                impci impre impdd perquota imsovrapre dsazade categoria cdfiscmaster
+                cdidmaster cdfisc cdidslave dtpriade tpquota imptcmagg impciagg impreagg impddagg]
+         :or {cdoper "E" categoria ["A00" "A01" "A02" "P00" "P01" "P02" "P03"]}} dati-form
+        gen-single-seq (fn [nkey nval] ((nkey fu-gen-record-adica) nval))]
+    (map vector
+         (gen-single-seq :cdoper cdoper)
+         (gen-single-seq :cdprod cdprod)
+         (gen-single-seq :nupoliz nupoliz)
+         (gen-single-seq :cdfisccontr cdfisccontr)
+         (gen-single-seq :cdfiscmaster cdfiscmaster)
+         (gen-single-seq :cdidmaster cdidmaster)
+         (gen-single-seq :cdfisc cdfisc)
+         (gen-single-seq :cdidslave cdidslave)
+         (gen-single-seq :cdparent ["00"])
+         (gen-single-seq :dsnome nomi)
+         (gen-single-seq :dscognome cognomi)
+         (gen-single-seq :dtnasc dtnasc)
+         (gen-single-seq :imptcm imptcm)
+         (gen-single-seq :impci impci)
+         (gen-single-seq :impre impre)
+         (gen-single-seq :perquota perquota)
+         (gen-single-seq :dsstato "")
+         (gen-single-seq :dsprov "")
+         (gen-single-seq :dscap "")
+         (gen-single-seq :dscomune "")
+         (gen-single-seq :dsloc "")
+         (gen-single-seq :dsaddress "")
+         (gen-single-seq :dspresso "")
+         (gen-single-seq :dtentrata dtentrata)
+         (gen-single-seq :dtuscita dtuscita)
+         (gen-single-seq :dtvaria dtvaria)
+         (gen-single-seq :dsscarto "")
+         (gen-single-seq :cdqualifica ["01" "02" "03" "04" "99"])
+         (gen-single-seq :imsovrapre imsovrapre)
+         (gen-single-seq :dtpriade dtpriade)
+         (gen-single-seq :dsazade dsazade)
+         (gen-single-seq :impdd impdd)
+         (gen-single-seq :cdinabile "")
+         (gen-single-seq :dsbenef "")
+         (gen-single-seq :cdfamiliare "")
+         (gen-single-seq :categoria ["A00" "A01" "A02" "P00" "P01" "P02" "P03"])
+         (gen-single-seq :tpquota tpquota)
+         (gen-single-seq :imptcmagg imptcmagg)
+         (gen-single-seq :impciagg impciagg)
+         (gen-single-seq :impreagg impreagg)
+         (gen-single-seq :impddagg impddagg))))
+
 
 (def numbers (iterate inc 1))
 
@@ -290,7 +388,8 @@
   (case key
     :carta (clojure.walk/keywordize-keys (zipmap titles (take n (genera-carta spec-in))))
     :carbp (clojure.walk/keywordize-keys (integrate-data with-cdfisc (zipmap titles (take n (genera-carbp spec-in)))))
-    :carti (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (take n (genera-carti spec-in)))))))))
+    :carti (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (take n (genera-carti spec-in)))))
+    :adica (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (take n (genera-adica spec-in)))))))))
 
 (defn nome-flusso
   [rec trac]
