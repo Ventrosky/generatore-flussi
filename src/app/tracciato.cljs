@@ -370,21 +370,19 @@
                          (assoc rec pos-master mastercf pos-parent cdsogg))))
         add-nucleo (fn [n no-cf-records]
                      (let [cdseq (nuclei-seq n)
-                           records (map with-cdfisc no-cf-records)]
+                           records (map with-cdfisc (take n no-cf-records))]
                        (loop [x 0
                               master (nth (nth records x) pos-cdfisc)
                               new-coll []]
                          (if (< x (count records))
                            (let [new-record (add-parent (nth records x) (nth cdseq x) master)]
                              (recur (inc x) (new-record pos-master) (conj new-coll new-record)))
-                           new-coll))))
-        with-nucleo (fn [rec]
-                      (with-cdfisc rec))]
+                           new-coll))))]
     (case key
       :carta (clojure.walk/keywordize-keys (zipmap titles (take n (genera-carta spec-in))))
       :carbp (clojure.walk/keywordize-keys (integrate-data with-cdfisc (zipmap titles (take n (genera-carbp spec-in)))))
-      :carti (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (take n (genera-carti spec-in)))))
-      :adica (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (take n (genera-adica spec-in))))))))
+      :carti (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (genera-carti spec-in))))
+      :adica (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (genera-adica spec-in)))))))
 
 (defn nome-flusso
   [rec trac]
