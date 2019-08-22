@@ -367,29 +367,24 @@
                      (let []
                        (case cdsogg
                          "00" (assoc rec pos-master (rec pos-cdfisc))
-                         (do
-                           (js/console.log (str cdsogg "-" mastercf "-" (rec pos-cdfisc)))
-                           (assoc rec pos-master mastercf pos-parent cdsogg)))))
+                         (assoc rec pos-master mastercf pos-parent cdsogg))))
         add-nucleo (fn [n no-cf-records]
                      (let [cdseq (nuclei-seq n)
                            records (map with-cdfisc no-cf-records)]
-                         (loop [x 0
-                                master (nth (nth records x) pos-cdfisc)
-                                new-coll []]
-                           (if (< x (count records))
-                               (let [new-record (add-parent (nth records x) (nth cdseq x) master)]
-                                (recur (inc x) (new-record pos-master) (conj new-coll new-record)))
-                             new-coll))))
+                       (loop [x 0
+                              master (nth (nth records x) pos-cdfisc)
+                              new-coll []]
+                         (if (< x (count records))
+                           (let [new-record (add-parent (nth records x) (nth cdseq x) master)]
+                             (recur (inc x) (new-record pos-master) (conj new-coll new-record)))
+                           new-coll))))
         with-nucleo (fn [rec]
                       (with-cdfisc rec))]
-(do
-  (js/console.log (:anag (key @censimento)))
-  (js/console.log (str pos-cdfisc "-" pos-nome "-" pos-cognome "-" pos-nasc))
-  (case key
-    :carta (clojure.walk/keywordize-keys (zipmap titles (take n (genera-carta spec-in))))
-    :carbp (clojure.walk/keywordize-keys (integrate-data with-cdfisc (zipmap titles (take n (genera-carbp spec-in)))))
-    :carti (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (take n (genera-carti spec-in)))))
-    :adica (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (take n (genera-adica spec-in)))))))))
+    (case key
+      :carta (clojure.walk/keywordize-keys (zipmap titles (take n (genera-carta spec-in))))
+      :carbp (clojure.walk/keywordize-keys (integrate-data with-cdfisc (zipmap titles (take n (genera-carbp spec-in)))))
+      :carti (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (take n (genera-carti spec-in)))))
+      :adica (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (take n (genera-adica spec-in))))))))
 
 (defn nome-flusso
   [rec trac]
