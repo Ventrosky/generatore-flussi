@@ -6,3 +6,7 @@ body {
 table tbody{    
   font-family: monospace;
 }
+
+.ui.segments:not(.horizontal)>.segment:first-child{
+  border-top: inherit !important;
+}

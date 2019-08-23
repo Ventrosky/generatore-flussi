@@ -4,7 +4,8 @@
                 [proto-repl "0.3.1"]
                 [reagent "0.8.1"]
                 [cljsjs/semantic-ui-react "0.87.1-0"]
-                [com.andrewmcveigh/cljs-time "0.5.2"]]
+                [com.andrewmcveigh/cljs-time "0.5.2"]
+                [org.clojure/core.async "0.4.474"]]
 
  :nrepl        {:port 3333}
 

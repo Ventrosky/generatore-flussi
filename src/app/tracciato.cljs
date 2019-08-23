@@ -344,7 +344,6 @@
          (gen-single-seq :impreagg impreagg)
          (gen-single-seq :impddagg impddagg))))
 
-
 (def numbers (iterate inc 1))
 
 (def titles (map #(str "gen-" %) numbers))

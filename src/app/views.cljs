@@ -2,7 +2,7 @@
   (:require [app.state :refer [app-state app-generated censimento app-setting app-inputato]]
             [app.events :refer [increment decrement]]
             [cljsjs.semantic-ui-react]
-            [reagent.core :refer [atom]]
+            [reagent.core :as r :refer [atom]]
             [app.tracciato :refer [genera-carta-n download-trc]]))
 
 (def semantic-ui js/semanticUIReact)
@@ -71,7 +71,7 @@
                  :on-change (fn [e]
                               (swap! satom assoc code (-> e .-target .-value)))
                  :key pname}]
-        [:select.ui.dropdown {:on-change (fn [e] 
+        [:select.ui.dropdown {:on-change (fn [e]
                                            (swap! satom assoc code (-> e .-target .-value)))}
          (for [d dominio]
            [:option {:value d 
@@ -84,18 +84,17 @@
 (defn content
   [items s]
   [:> grid {:columns 2 :stackable true}
-   (for [{:keys [nome descrizione dominio tipo obbligatorio specifiche code]} (inputati items)]
-     ^{:key nome}
-     [posfield s nome descrizione dominio tipo obbligatorio specifiche code])
+   (doall
+    (for [{:keys [nome descrizione dominio tipo obbligatorio specifiche code]} (inputati items)]
+      ^{:key (str nome "-" (:selected @app-setting))}
+      [posfield app-inputato nome descrizione dominio tipo obbligatorio specifiche code]))
    [:> grid-row {:columns 2 :style {:text-align "center"}}
     [:> grid-column 
      [:> button {:type "submit" 
                  :color "blue"
                  :on-click (fn [evt]
-                             (let [x (:num @app-setting)
-                                   new-records (genera-carta-n x @s (:selected @app-setting))]
-                               (reset! app-generated new-records)))} "Genera"]]
-    [:> grid-column
+                               (swap! app-setting assoc :loading true))} "Genera"]]
+    [:> grid-column;
      [:> button {:color "blue"
                  :on-click (fn [evt]
                              (download-trc))} "Esporta"]]]])
@@ -104,12 +103,37 @@
   []
   (reduce #(assoc %1 (:code %2) (or (first (:dominio %2)) "")) {} ((:selected @app-setting) @app-state)))
 
+(defn fl-loader
+  []
+  [:div.ui.inverted.dimmer {:class (when (:loading @app-setting) "active")}
+   [:> loader "Preparazione Flusso"]])
+
+(defn up-loader 
+  []
+  (r/create-class
+   {:display-name "up-loader"
+    :reagent-render
+    (fn []
+      [:div.ui.inverted.dimmer {:class (when (:loading @app-setting) "active")}
+       [:> loader "Preparazione Flusso"]])
+    :component-did-update
+    (fn [comp]
+      (when (:loading @app-setting) 
+         (let [x (:num @app-setting)
+               sel (:selected @app-setting)
+               new-records (genera-carta-n x @app-inputato sel)]
+           (do 
+             (js/console.log "component-did-update")
+             (reset! app-generated new-records)
+             (swap! app-setting assoc :loading false)))))}))
+
 (defn form-tracciato
   [campi]
-  (let [s app-inputato];;(inputati specs)
-      (fn []
-        [:> form
-         [content ((:selected @app-setting) @app-state) s]])))
+  (let [s app-inputato]
+    (fn []
+      [:> form
+       [up-loader]
+       [content ((:selected @app-setting) @app-state) s]])))
 
 (defn tabella-generata
   [records testata]
@@ -160,7 +184,7 @@
     [:> divider]
     [:> grid {:columns 1 :stackable true}
      [:> grid-row
-      [:div {:style {:overflow-x "scroll" 
+      [:div {:style {:overflow-x "scroll"
                      :padding "0px"
                      :border "dashed"
                      :border-color "#2185d0"
