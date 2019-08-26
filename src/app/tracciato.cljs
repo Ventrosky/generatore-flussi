@@ -395,10 +395,12 @@
         name (nome-flusso (first record-text) trac-name)
         link (.createElement js/document "a")
         text (upper-case (clojure.string/join "\n" (map #(clojure.string/join "|" %) (sort-by #(nth % 5) record-text))))
-        text-enc (str "data:text/plain;charset=utf-8," (.encodeURIComponent js/window text))]
+        blob (new js/Blob
+                  (clj->js [text])
+                  (clj->js {:type "text/plain;charset=utf-8"}))]
     (when-not (empty? record-text)
       (do
-        (set! (.-href link) text-enc)
+        (set! (.-href link) (.createObjectURL js/URL blob))
         (.setAttribute link "download" name)
         (.appendChild (.-body js/document) link)
         (.click link)
