@@ -5,7 +5,7 @@ Web app built with Reagent for generating data streams. Serves the scope of gene
 ## Setup And Run
 #### Copy repository
 ```shell
-git clone https://github.com/Ventrosky/learn-clojure.git && cd genera-flussi
+git clone https://github.com/Ventrosky/genera-flussi
 ```
 
 #### Install dependencies
