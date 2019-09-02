@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "create-react-class": "^15.6.3",
+    "excellentexport": "^3.4.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-semantic-ui-datepickers": "^1.10.1",

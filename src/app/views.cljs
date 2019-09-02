@@ -3,7 +3,7 @@
             [app.events :refer [increment decrement]]
             [cljsjs.semantic-ui-react]
             [reagent.core :as r :refer [atom]]
-            [app.tracciato :refer [genera-carta-n download-trc]]))
+            [app.tracciato :refer [genera-carta-n download-trc download-xls]]))
 
 (def semantic-ui js/semanticUIReact)
 
@@ -88,16 +88,20 @@
     (for [{:keys [nome descrizione dominio tipo obbligatorio specifiche code]} (inputati items)]
       ^{:key (str nome "-" (:selected @app-setting))}
       [posfield app-inputato nome descrizione dominio tipo obbligatorio specifiche code]))
-   [:> grid-row {:columns 2 :style {:text-align "center"}}
+   [:> grid-row {:columns 3 :style {:text-align "center"}}
     [:> grid-column 
      [:> button {:type "submit" 
                  :color "blue"
                  :on-click (fn [evt]
-                               (swap! app-setting assoc :loading true))} "Genera"]]
+                             (swap! app-setting assoc :loading true))} "Genera"]]
     [:> grid-column;
      [:> button {:color "blue"
                  :on-click (fn [evt]
-                             (download-trc))} "Esporta"]]]])
+                             (download-trc))} "Esporta CSV"]]
+    [:> grid-column;
+     [:> button {:color "blue"
+                 :on-click (fn [evt]
+                             (download-xls))} "Esporta XLS"]]]])
 
 (defn build-form-atom
   []
@@ -137,13 +141,13 @@
 
 (defn tabella-generata
   [records testata]
-  [:> table {:celled true}
+  [:> table {:celled true :id "table-flusso"}
    [:> table-header
     [:> table-row
        (for [testa testata]
          ^{:key (random-uuid)}
          [:> table-headercell testa ])]]
-   [:> table-body 
+   [:> table-body {:id "tbody-flusso"}
     (for [riga (sort-by #(nth % (:sort ((:selected @app-setting) @censimento))) records)]
       ^{:key (random-uuid)}
       [:> table-row {:style {:white-space "nowrap"}}

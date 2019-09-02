@@ -4,7 +4,8 @@
             [clojure.walk]
             [app.state :refer [app-anagrafe app-generated app-setting censimento]]
             [app.soggetto :refer [gen-cdfisc]]
-            [clojure.string :refer [upper-case]]))
+            [clojure.string :refer [upper-case]]
+            ["excellentexport"  :as EE :refer [excel convert]]))
 
 (def cognomi (:cognomi @app-anagrafe))
 
@@ -384,15 +385,15 @@
       :adica (clojure.walk/keywordize-keys (zipmap titles (add-nucleo n (genera-adica spec-in)))))))
 
 (defn nome-flusso
-  [rec trac]
+  [rec trac ext]
   (let [[cdoper _] rec]
-    (str cdoper "_" trac "_" (upper-case (#(.toString % 16) (.getTime (js/Date.)))) ".csv")))
+    (str cdoper "_" trac "_" (upper-case (#(.toString % 16) (.getTime (js/Date.)))) ext)))
 
 (defn download-trc
   []
   (let [record-text (vals @app-generated)
         trac-name (:name ((:selected @app-setting) @censimento))
-        name (nome-flusso (first record-text) trac-name)
+        name (nome-flusso (first record-text) trac-name ".csv")
         link (.createElement js/document "a")
         text (upper-case (clojure.string/join "\n" (map #(clojure.string/join "|" %) (sort-by #(nth % 5) record-text))))
         blob (new js/Blob
@@ -402,6 +403,49 @@
       (do
         (set! (.-href link) (.createObjectURL js/URL blob))
         (.setAttribute link "download" name)
+        (.appendChild (.-body js/document) link)
+        (.click link)
+        (.removeChild (.-body js/document) link)))))
+
+
+;;(let [name (:name ((:selected @app-setting) @censimento))]
+;;                               (do 
+;;                                 (js/console.log (js* "this"))
+;;                                 (excel (js* "this") "table-flusso" name))))} "Esporta XLS"]]
+(defn download-xls
+  []
+  (let [record-text (vals @app-generated)
+        trac-name (:name ((:selected @app-setting) @censimento))
+        name (nome-flusso (first record-text) trac-name ".xls")
+        link (.createElement js/document "a")]
+    (when-not (empty? record-text)
+      (do
+        (.setAttribute link "download" name)
+        (excel link "table-flusso" (str (first record-text) "_" trac-name));(js* "this")
+        (.appendChild (.-body js/document) link)
+        (.click link)
+        (.removeChild (.-body js/document) link)))))
+
+(defn download-xlsx
+  []
+  (let [record-text (vals @app-generated)
+        trac-name (:name ((:selected @app-setting) @censimento))
+        name (nome-flusso (first record-text) trac-name ".xlsx")
+        link (.createElement js/document "a")
+        ;text (upper-case (clojure.string/join "\n" (map #(clojure.string/join "|" %) (sort-by #(nth % 5) record-text))))
+        table (convert
+               (clj->js {:anchor link :filename name, :format "xlsx"})
+               (clj->js [{:name trac-name :from {:table "table-flusso"}}]))
+        blob (new js/Blob
+                  (clj->js [table])
+                  (clj->js {:type "application/vnd.ms-excel"}))]
+    ;ExcellentExport.convert({ anchor: this, filename: 'data_123.array', format: 'xlsx'},[{name: 'Sheet Name Here 1', from: {table: 'datatable'}}])
+    (when-not (empty? record-text)
+      (do
+        (js/console.log table)
+        (set! (.-href link) (.createObjectURL js/URL blob))
+        (.setAttribute link "download" name)
+        ;(excel link "table-flusso" (str (first record-text) "_" trac-name));(js* "this")
         (.appendChild (.-body js/document) link)
         (.click link)
         (.removeChild (.-body js/document) link)))))
