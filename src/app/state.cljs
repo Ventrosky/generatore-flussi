@@ -1133,7 +1133,7 @@
                                           :pos-nasc 11
                                           :pos-master 4
                                           :pos-parent 8}}
-                           :adica {:name "ADICA"
+                           :adica {:name "CARAD"
                                    :code :adica
                                    :sort 4
                                    :anag {:pos-cdfisc 6
