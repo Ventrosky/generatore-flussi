@@ -133,11 +133,12 @@
    :domanda2 (fn [answers] (repeatedly #(rand-nth answers)))
    :domanda3 (fn [answers] (repeatedly #(rand-nth answers)))
    :domanda4 (fn [answers] (repeatedly #(rand-nth answers)))
+   :domanda5 (fn [answers] (repeatedly #(rand-nth answers)))
    :aws (fn [answers] (repeatedly #(rand-nth answers)))})
 
 (defn genera-carbp
   [dati-form]
-  (let [{:keys [cdoper nupoliz dsnome dscognome cdfisc dtnasc dtentrata dtuscita imptcm impci impre impdd categoria domanda1 domanda2 domanda3 domanda4 aaw]
+  (let [{:keys [cdoper nupoliz dsnome dscognome cdfisc dtnasc dtentrata dtuscita imptcm impci impre impdd categoria domanda1 domanda2 domanda3 domanda4 domanda5 aaw]
          :or {cdoper "E" categoria ["A00" "A01" "A02" "P00" "P01" "P02" "P03"]}} dati-form
         gen-single-seq (fn [nkey nval] ((nkey fu-gen-record-carbp) nval))]
     (map vector
@@ -158,6 +159,7 @@
          (gen-single-seq :domanda2 ["S" "N"])
          (gen-single-seq :domanda3 ["S" "N"])
          (gen-single-seq :domanda4 ["S" "N"])
+         (gen-single-seq :domanda5 ["S" "N"])
          (gen-single-seq :aws ["S" "N"]))))
 
 (def fu-gen-record-carti

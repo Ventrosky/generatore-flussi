@@ -332,6 +332,16 @@
                                    :code :domanda4
                                    :inputato false}
                                   {:pos 18
+                                   :nome "Domanda 5"
+                                   :descrizione "Domanda 5"
+                                   :specifiche "Valorizzare in base alle codifiche"
+                                   :tipo :tchar
+                                   :lungh 1
+                                   :obbligatorio "O"
+                                   :dominio ["N","S"]
+                                   :code :domanda5
+                                   :inputato false}
+                                  {:pos 19
                                    :nome "Active At Work"
                                    :descrizione "Active At Work"
                                    :specifiche "Valorizzare in base alle codifiche"
