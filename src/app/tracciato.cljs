@@ -159,7 +159,7 @@
          (gen-single-seq :domanda2 ["S" "N"])
          (gen-single-seq :domanda3 ["S" "N"])
          (gen-single-seq :domanda4 ["S" "N"])
-         (gen-single-seq :domanda5 ["S" "N"])
+         (gen-single-seq :domanda5 ["S" "N" ""])
          (gen-single-seq :aws ["S" "N"]))))
 
 (def fu-gen-record-carti
